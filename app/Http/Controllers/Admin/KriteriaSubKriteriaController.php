@@ -103,6 +103,7 @@ class KriteriaSubKriteriaController extends Controller
                 $arraySubKriteria[$value->kriteria_id][] = $value;
             }
             $data['subKriteria'] = $arraySubKriteria;
+            $data['jsonSubKriteria'] = json_encode($dataSubKriteria);
             return view('admin.kriteriaSubkriteria.index', $data);
         } catch (Exception $e) {
             return response()->json([

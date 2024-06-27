@@ -66,5 +66,6 @@
 @endsection
 
 @push('js')
+    <script class="data_subkriteria" data-json="{{ $jsonSubKriteria }}"></script>
     @include('admin.kriteriaSubkriteria.script')
 @endpush

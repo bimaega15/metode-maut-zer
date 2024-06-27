@@ -24,7 +24,8 @@
                              </div>
                              <div class="col-lg-6">
                                  <div class="form-group">
-                                     <select name="sub_kriteria_id[$vKriteria->id][]" id="" class="form-control">
+                                     <select name="sub_kriteria_id[$vKriteria->id][]" id=""
+                                         class="form-control sub_kriteria_id" data-kriteria_id="{{ $vKriteria->id }}">
                                          <option value="">-- Pilih Sub Kriteria --</option>
                                          @foreach ($subKriteria[$vKriteria->id] as $row)
                                              <option value="{{ $row->id }}">

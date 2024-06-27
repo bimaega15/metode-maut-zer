@@ -1,4 +1,5 @@
 <script>
+    var data_subkriteria = $('.data_subkriteria').data('json');
     $(document).ready(function(e) {
         var table = $('#dataTable').DataTable({
             ajax: {
@@ -80,6 +81,7 @@
         $(document).on('submit', '.form-submit', function(e) {
             e.preventDefault();
             let pushKriteriaId = [];
+            let alternatif_id = $('.alternatif_id').val();
             let kriteriaId = $('.kriteria_id');
             $.each(kriteriaId, function(i, v) {
                 let value = $(this).val();
@@ -96,13 +98,16 @@
             let sub_kriteria_id = pushSubKriteriaId.join(',');
 
             let pushNilaiKriteriaSubkriteria = [];
-            let nilaiKriteriaSubKriteria = $('.nilai_kriteria_subkriteria');
-            $.each(nilaiKriteriaSubKriteria, function(i, v) {
-                let value = $(this).val();
-                pushNilaiKriteriaSubkriteria.push(value);
+            pushSubKriteriaId.map((v, i) => {
+                let nilai = data_subkriteria.find(x => x.id == v);
+                if (nilai != undefined) {
+                    pushNilaiKriteriaSubkriteria.push(nilai.bobot_sub_kriteria);
+                } else {
+                    pushNilaiKriteriaSubkriteria.push(0);
+                }
             })
             let nilai_kriteria_subkriteria = pushNilaiKriteriaSubkriteria.join(',');
-            let alternatif_id = $('.alternatif_id').val();
+
 
             let data = {};
             data.kriteria_id = kriteria_id;
@@ -125,7 +130,6 @@
                     $('.btn-submit').attr('disabled', true);
                 },
                 success: function(data) {
-                    console.log(data);
                     if (data.status == 200) {
                         Swal.fire({
                             icon: 'success',
