@@ -34,6 +34,13 @@
                          <small class="error_nama_sub_kriteria text-danger"></small>
                          <label for="floatingInput">Nama</label>
                      </div>
+                     <div style="height: 10px;"></div>
+                     <div class="form-floating">
+                         <input type="number" class="form-control bobot_sub_kriteria" id="floatingInput"
+                             placeholder="Bobot kriteria..." name="bobot_sub_kriteria">
+                         <small class="error_bobot_sub_kriteria text-danger"></small>
+                         <label for="floatingInput">Bobot Sub Kriteria</label>
+                     </div>
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i data-feather="x"></i>

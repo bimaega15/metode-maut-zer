@@ -27,7 +27,7 @@
 
                     $('.alamat_profile').val(result.profile.alamat_profile);
                     let linkGambar =
-                        `${root}/storage/upload/profile/${result.profile.gambar_profile}`;
+                        `${root}storage/upload/profile/${result.profile.gambar_profile}`;
                     $('#load_gambar_profile').html(`
                     <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${result.profile.gambar_profile}">
                         <img class="img-thumbnail" class="w-25" src="${linkGambar}"></img>    
@@ -50,7 +50,7 @@
                     $('.jenis_kelamin_profile_html').html(jenisKelamin);
                     $('.alamat_profile_html').html(result.profile.alamat_profile);
                     let linkGambarHtml =
-                        `${root}/storage/upload/profile/${result.profile.gambar_profile}`;
+                        `${root}storage/upload/profile/${result.profile.gambar_profile}`;
                     $('#load_image_profile_html').html(`
                     <a class="photoviewer" href="${linkGambarHtml}" data-gallery="photoviewer" data-title="${result.profile.gambar_profile}">
                         <img class="img-thumbnail" class="w-25" src="${linkGambarHtml}"></img>    

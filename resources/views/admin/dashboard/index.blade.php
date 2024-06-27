@@ -77,17 +77,6 @@
                 <div class="col-md-6 col-xl-3">
                     <div class="card stat-widget">
                         <div class="card-body">
-                            <h5 class="card-title">Menu</h5>
-                            <h2>{{ $menu }}</h2>
-                            <p>
-                                <i class="fas fa-table fa-2x"></i>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xl-3">
-                    <div class="card stat-widget">
-                        <div class="card-body">
                             <h5 class="card-title">Hasil</h5>
                             <h2>{{ $hasil }}</h2>
                             <p>

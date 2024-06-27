@@ -10,7 +10,7 @@
 
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
-            let url = "{{ url('/public/') }}";
+            let url = "{{ url('/') }}";
             $('input[name="_method"]').val('post');
             $('.form-submit').attr('action', url + '/admin/gejala');
 
@@ -37,7 +37,7 @@
                     $('.id').val(result.id);
                     $('input[name="_method"]').val('put');
 
-                    let url = "{{ url('/public/') }}";
+                    let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/gejala/' + result.id);
                     $('#modalForm').modal('show');
                 },

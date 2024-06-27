@@ -10,7 +10,7 @@
 
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
-            let url = "{{ url('/public/') }}";
+            let url = "{{ url('/') }}";
             $('input[name="_method"]').val('post');
             $('.form-submit').attr('action', url + '/admin/penilaian/store');
 

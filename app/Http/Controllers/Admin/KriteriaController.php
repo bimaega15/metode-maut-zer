@@ -75,7 +75,7 @@ class KriteriaController extends Controller
                         $v_data->kode_kriteria,
                         $v_data->nama_kriteria,
                         $v_data->definisi_kriteria,
-                        $v_data->bobot_kriteria . '%',
+                        $v_data->bobot_kriteria,
                         trim($button)
                     ];
                 }

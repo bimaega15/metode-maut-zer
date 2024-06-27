@@ -24,7 +24,7 @@
                         $('.deskripsi_konfigurasi').val(result.deskripsi_konfigurasi);
 
                         let linkGambar =
-                            `${root}/storage/upload/konfigurasi/${result.logo_konfigurasi}`;
+                            `${root}storage/upload/konfigurasi/${result.logo_konfigurasi}`;
                         $('#load_logo_konfigurasi').html(`
                     <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${result.logo_konfigurasi}">
                         <img width="150px;" class="img-thumbnail" src="${linkGambar}"></img>    

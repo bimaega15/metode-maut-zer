@@ -11,7 +11,7 @@
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
             $('input[name="_method"]').val('post');
-            let url = "{{ url('/public/') }}";
+            let url = "{{ url('/') }}";
             $('.form-submit').attr('action', url + '/admin/bobotUser');
 
             resetForm();
@@ -35,7 +35,7 @@
                     $('.nilai_bobot_user').val(result.nilai_bobot_user);
                     $('input[name="_method"]').val('put');
 
-                    let url = "{{ url('/public/') }}";
+                    let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/bobotUser/' + result.id);
                     $('#modalForm').modal('show');
                 },

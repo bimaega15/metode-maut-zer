@@ -31,7 +31,7 @@
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
             autoGenerateNumber();
-            let url = "{{ url('/public/') }}";
+            let url = "{{ url('/') }}";
             $('input[name="_method"]').val('post');
             $('.form-submit').attr('action', url + '/admin/subKriteria');
 
@@ -54,11 +54,12 @@
                     $('.id').val(result.id);
                     $('.kode_sub_kriteria').val(result.kode_sub_kriteria);
                     $('.nama_sub_kriteria').val(result.nama_sub_kriteria);
+                    $('.bobot_sub_kriteria').val(result.bobot_sub_kriteria);
                     $('.kriteria_id').val(result.kriteria_id).trigger('change');
 
                     $('input[name="_method"]').val('put');
 
-                    let url = "{{ url('/public/') }}";
+                    let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/subKriteria/' + result
                         .id);
                     $('#modalForm').modal('show');

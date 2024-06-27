@@ -11,7 +11,7 @@
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
             $('input[name="_method"]').val('post');
-            let url = "{{ url('/public/') }}";
+            let url = "{{ url('/') }}";
             $('.form-submit').attr('action', url + '/admin/roles');
 
             resetForm();
@@ -34,7 +34,7 @@
                     $('.nama_roles').val(result.nama_roles);
                     $('input[name="_method"]').val('put');
 
-                    let url = "{{ url('/public/') }}";
+                    let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/roles/' + result.id);
                     $('#modalForm').modal('show');
                 },

@@ -8,6 +8,7 @@ use App\Models\Konfigurasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use File;
+use Illuminate\Support\Facades\Storage;
 
 class KonfigurasiController extends Controller
 {
@@ -219,11 +220,10 @@ class KonfigurasiController extends Controller
     {
         if ($id != null) {
             $konfigurasi = Konfigurasi::find($id);
-            $logo_konfigurasi = public_path() . '/storage/upload/konfigurasi/' . $konfigurasi->logo_konfigurasi;
-            if (file_exists($logo_konfigurasi)) {
-                if ($konfigurasi->logo_konfigurasi != 'default.png') {
-                    File::delete($logo_konfigurasi);
-                }
+            $filePath = 'upload/konfigurasi/' . $konfigurasi->logo_konfigurasi;
+
+            if (Storage::disk('public')->exists($filePath)) {
+                Storage::disk('public')->delete($filePath);
             }
         }
     }

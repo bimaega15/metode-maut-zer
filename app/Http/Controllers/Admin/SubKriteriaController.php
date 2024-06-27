@@ -76,6 +76,7 @@ class SubKriteriaController extends Controller
                         $no++,
                         $v_data->kode_sub_kriteria,
                         $v_data->nama_sub_kriteria,
+                        $v_data->bobot_sub_kriteria,
                         $v_data->kriteria->kode_kriteria . ' ' . $v_data->kriteria->nama_kriteria,
                         trim($button)
                     ];
@@ -124,6 +125,7 @@ class SubKriteriaController extends Controller
                     }
                 }],
                 'nama_sub_kriteria' => 'required',
+                'bobot_sub_kriteria' => 'required',
                 'kriteria_id' => 'required',
             ], [
                 'required' => ':attribute wajib diisi',
@@ -143,6 +145,7 @@ class SubKriteriaController extends Controller
             $data = [
                 'kode_sub_kriteria' => $request->input('kode_sub_kriteria'),
                 'nama_sub_kriteria' => $request->input('nama_sub_kriteria'),
+                'bobot_sub_kriteria' => $request->input('bobot_sub_kriteria'),
                 'kriteria_id' => $request->input('kriteria_id'),
             ];
             $insert = SubKriteria::create($data);
@@ -239,6 +242,7 @@ class SubKriteriaController extends Controller
                     }
                 }],
                 'nama_sub_kriteria' => 'required',
+                'bobot_sub_kriteria' => 'required',
                 'kriteria_id' => 'required',
             ], [
                 'required' => ':attribute wajib diisi',
@@ -258,6 +262,7 @@ class SubKriteriaController extends Controller
             $data = [
                 'kode_sub_kriteria' => $request->input('kode_sub_kriteria'),
                 'nama_sub_kriteria' => $request->input('nama_sub_kriteria'),
+                'bobot_sub_kriteria' => $request->input('bobot_sub_kriteria'),
                 'kriteria_id' => $request->input('kriteria_id'),
             ];
             $update = SubKriteria::find($id)->update($data);

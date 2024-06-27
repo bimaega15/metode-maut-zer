@@ -24,7 +24,7 @@ class Check
         if ($currentUrl != null) {
             $menu->where('management_menu.link_management_menu', $currentUrl);
         }
-        $menu->orderByRaw('CAST(management_menu.no_management_menu as UNSIGNED)', 'asc')
+        $menu->orderBy('management_menu.no_management_menu', 'asc')
             ->select('management_menu.*', 'management_menu_roles.is_create', 'management_menu_roles.is_update', 'management_menu_roles.is_delete');
         $menu = $menu->get();
         return $menu;
@@ -46,7 +46,7 @@ class Check
         unset($explodeCurrent[0]);
         unset($explodeCurrent[1]);
         unset($explodeCurrent[2]);
-        unset($explodeCurrent[3]);
+        // unset($explodeCurrent[3]);
         $currentUrl = '/' . implode('/', $explodeCurrent);
         return $currentUrl;
     }

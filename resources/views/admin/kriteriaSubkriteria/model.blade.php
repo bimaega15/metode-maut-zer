@@ -12,27 +12,29 @@
                  <input type="hidden" name="alternatif_id" class="alternatif_id">
                  <div class="modal-body">
                      @foreach ($kriteria as $vKriteria)
-                         <div class="form-group">
-                             <label for="">{{ $vKriteria->kode_kriteria }}
-                                 {{ $vKriteria->nama_kriteria }}</label>
-                             <input type="hidden" name="kriteria_id[]" class="kriteria_id"
-                                 value="{{ $vKriteria->id }}">
-                             @foreach ($vKriteria->subKriteria as $item)
-                                 <input type="hidden" name="sub_kriteria_id[]" class="sub_kriteria_id"
-                                     value="{{ $item->id }}">
-                                 <div class="form-floating">
-                                     <input type="number" class="form-control nilai_kriteria_subkriteria"
-                                         id="floatingInput" placeholder="Penilaian siswa..."
-                                         name="nilai_kriteria_subkriteria[]" value="" step="any"
-                                         data-sub_kriteria_id="{{ $item->id }}">
-                                     <small class="error_nilai_kriteria_subkriteria text-danger"></small>
-                                     <label for="floatingInput">{{ $item->kode_sub_kriteria }}
-                                         {{ $item->nama_sub_kriteria }}</label>
+                         <div class="row mb-3">
+                             <div class="col-lg-6">
+                                 <div class="form-group">
+                                     <label for="">{{ $vKriteria->kode_kriteria }}
+                                         {{ $vKriteria->nama_kriteria }}</label>
+                                     <input type="hidden" name="kriteria_id[]" class="kriteria_id"
+                                         value="{{ $vKriteria->id }}">
                                  </div>
                                  <div style="height: 10px;"></div>
-                             @endforeach
+                             </div>
+                             <div class="col-lg-6">
+                                 <div class="form-group">
+                                     <select name="sub_kriteria_id[$vKriteria->id][]" id="" class="form-control">
+                                         <option value="">-- Pilih Sub Kriteria --</option>
+                                         @foreach ($subKriteria[$vKriteria->id] as $row)
+                                             <option value="{{ $row->id }}">
+                                                 {{ $row->nama_sub_kriteria }}
+                                             </option>
+                                         @endforeach
+                                     </select>
+                                 </div>
+                             </div>
                          </div>
-                         <div style="height: 10px;"></div>
                      @endforeach
                  </div>
                  <div class="modal-footer">

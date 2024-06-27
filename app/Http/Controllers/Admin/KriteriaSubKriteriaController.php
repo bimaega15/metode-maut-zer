@@ -97,6 +97,12 @@ class KriteriaSubKriteriaController extends Controller
                 return response()->json($result, 200);
             }
             $data['kriteria'] = Kriteria::with('subKriteria')->get();
+            $dataSubKriteria = SubKriteria::all();
+            $arraySubKriteria = [];
+            foreach ($dataSubKriteria as $key => $value) {
+                $arraySubKriteria[$value->kriteria_id][] = $value;
+            }
+            $data['subKriteria'] = $arraySubKriteria;
             return view('admin.kriteriaSubkriteria.index', $data);
         } catch (Exception $e) {
             return response()->json([

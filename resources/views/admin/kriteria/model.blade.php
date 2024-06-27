@@ -35,7 +35,7 @@
                          <input type="number" class="form-control bobot_kriteria" id="floatingInput"
                              placeholder="No. HP..." name="bobot_kriteria" step="any">
                          <small class="error_bobot_kriteria text-danger"></small>
-                         <label for="floatingInput">Bobot</label>
+                         <label for="floatingInput">Prioritas</label>
                      </div>
                  </div>
                  <div class="modal-footer">

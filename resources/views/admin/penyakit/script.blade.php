@@ -11,7 +11,7 @@
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
             $('input[name="_method"]').val('post');
-            let url = "{{ url('/public/') }}";
+            let url = "{{ url('/') }}";
             $('.form-submit').attr('action', url + '/admin/penyakit');
 
             resetForm();
@@ -37,7 +37,7 @@
                     $('.id').val(result.id);
                     $('input[name="_method"]').val('put');
 
-                    let url = "{{ url('/public/') }}";
+                    let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/penyakit/' + result.id);
                     $('#modalForm').modal('show');
                 },

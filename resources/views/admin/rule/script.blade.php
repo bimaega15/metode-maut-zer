@@ -12,7 +12,7 @@
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
             $('input[name="_method"]').val('post');
-            let url = "{{ url('/public/') }}";
+            let url = "{{ url('/') }}";
             $('.form-submit').attr('action', url + '/admin/rule');
 
             resetForm();
@@ -51,7 +51,7 @@
                     $('.id').val(roles.penyakit_id);
                     $('input[name="_method"]').val('put');
 
-                    let url = "{{ url('/public/') }}";
+                    let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/rule/' + roles
                         .penyakit_id);
                     $('#modalForm').modal('show');

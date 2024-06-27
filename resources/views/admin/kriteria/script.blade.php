@@ -30,7 +30,7 @@
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
             autoGenerateNumber();
-            let url = "{{ url('/public/') }}";
+            let url = "{{ url('/') }}";
             $('input[name="_method"]').val('post');
             $('.form-submit').attr('action', url + '/admin/kriteria');
 
@@ -58,7 +58,7 @@
 
                     $('input[name="_method"]').val('put');
 
-                    let url = "{{ url('/public/') }}";
+                    let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/kriteria/' + result
                         .id);
                     $('#modalForm').modal('show');

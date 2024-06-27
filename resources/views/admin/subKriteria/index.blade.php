@@ -38,6 +38,9 @@
                                                         Nama
                                                     </th>
                                                     <th scope="col">
+                                                        Bobot
+                                                    </th>
+                                                    <th scope="col">
                                                         Kriteria
                                                     </th>
                                                     <th scope="col">
