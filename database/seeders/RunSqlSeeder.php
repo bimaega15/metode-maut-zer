@@ -15,7 +15,7 @@ class RunSqlSeeder extends Seeder
     public function run()
     {
         //
-        $sql = file_get_contents(public_path('db/maut_zeruci.sql'));
+        $sql = file_get_contents(public_path('db/maut_zer.sql'));
         DB::unprepared($sql);
     }
 }
