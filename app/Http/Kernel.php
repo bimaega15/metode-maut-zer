@@ -38,10 +38,10 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-        'throttle' => ['throttle:99,1'],
+        // 'throttle' => ['throttle:99,1'],
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:5000,1',
+            // 'throttle:99,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -65,6 +65,5 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkAlreadyLogin' => \App\Http\Middleware\CheckAlreadyLogin::class,
         'checkNotLogin' => \App\Http\Middleware\CheckNotLogin::class
-
     ];
 }

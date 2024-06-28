@@ -21,7 +21,6 @@ class CreateHasilsTable extends Migration
             $table->integer('selesai_test_id')->unsigned();
 
             $table->foreign('alternatif_id')->references('id')->on('alternatif')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('selesai_test_id')->references('id')->on('selesai_test')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
