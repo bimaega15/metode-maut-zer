@@ -62,7 +62,14 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
-                            <i data-feather="user"></i> <strong>Data users</strong>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <i data-feather="user"></i> <strong>Data users</strong>
+                                </div>
+                                <div>
+                                    {{ Breadcrumbs::render('users') }}
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">

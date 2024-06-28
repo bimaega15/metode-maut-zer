@@ -97,8 +97,10 @@ class HasilController extends Controller
         try {
             //code...
             $getDetail = Metode::getPerhitunganMetodeHasil($id);
+
             if ($getDetail) {
-                $saveMetode = Metode::getPerhitunganMetode($request);
+                $saveMetode = $getDetail;
+                $saveMetode['metode']['id'] = $id;
                 return view('admin.hasil.detail', $saveMetode['metode']);
             } else {
                 session()->flash('error', 'Gagal ambil data');

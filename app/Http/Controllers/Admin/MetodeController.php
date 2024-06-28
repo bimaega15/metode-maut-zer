@@ -88,7 +88,7 @@ class MetodeController extends Controller
 
             $hasil = [];
             $rank = 1;
-            $hasilBagiSub = $saveMetode['metode']['hasilBagi'];
+            $matriksTernormalisasi = $saveMetode['metode']['matriksTernormalisasi'];
             foreach ($saveMetode['metode']['ranking'] as $alternatif_id => $value) {
                 $insertHasil = [
                     'alternatif_id' => $alternatif_id,
@@ -100,7 +100,7 @@ class MetodeController extends Controller
                 $hasil_id = $hasil->id;
 
                 $insertHasilDetail = [];
-                foreach ($hasilBagiSub[$alternatif_id] as $kriteria_id => $value) {
+                foreach ($matriksTernormalisasi[$alternatif_id] as $kriteria_id => $value) {
                     $insertHasilDetail[] = [
                         'hasil_id' => $hasil_id,
                         'kriteria_id' => $kriteria_id,

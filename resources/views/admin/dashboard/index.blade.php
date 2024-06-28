@@ -6,6 +6,13 @@
     <div class="page-content">
         <div class="main-wrapper">
             <div class="row">
+                <div class="col-lg-12">
+                    <div class="d-flex justify-content-end">
+                        {{ Breadcrumbs::render('home') }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6 col-xl-3">
                     <div class="card stat-widget">
                         <div class="card-body">

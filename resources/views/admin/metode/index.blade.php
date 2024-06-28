@@ -13,13 +13,23 @@
                     <div class="card">
                         @include('utils.session');
                         <div class="card-header">
-                            <i data-feather="settings"></i> <strong>Data Perhitungan</strong>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <i data-feather="settings"></i> <strong>Data Perhitungan</strong>
+                                </div>
+                                <div>
+                                    {{ Breadcrumbs::render('perhitungan') }}
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
-                            @include('admin.metode.partial.hasilBagiSub')
-                            @include('admin.metode.partial.normalisasiMatriks')
-                            @include('admin.metode.partial.preferensi')
-                            @include('admin.metode.partial.ranking')
+                            @include('admin.metode.partial.dataKriteria')
+                            @include('admin.metode.partial.menghitungNilaiBobot')
+                            @include('admin.metode.partial.matriksTernormalisasi')
+                            @include('admin.metode.partial.minMax')
+                            @include('admin.metode.partial.normalisasiMatriksKeputusan')
+                            @include('admin.metode.partial.hasilPerkalianMatriks')
+                            @include('admin.metode.partial.rankingMatriks')
                             <div class="text-center">
                                 <div class="form-group">
                                     <button class="btn btn-primary form-control" data-bs-toggle="modal"

@@ -6,10 +6,14 @@
             format: 'dd-mm-yyyy'
         });
 
-        $('#tableHasilBagi').DataTable();
-        $('#tableNormalisasi').DataTable();
+        $('#tableDataKriteria').DataTable();
+        $('#tableNilaiBobot').DataTable();
+        $('#tableMatriksTernormalisasi').DataTable();
+        $('#tableMatriksNormalisasiKeputusan').DataTable();
         $('#tablePreferensi').DataTable();
-        $('#tableRanking').DataTable();
+        $('#tableRanking').DataTable({
+            ordering: false
+        });
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");

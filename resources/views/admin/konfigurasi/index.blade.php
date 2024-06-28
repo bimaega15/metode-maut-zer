@@ -58,7 +58,14 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
-                            <i data-feather="settings"></i> <strong>Data konfigurasi</strong>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <i data-feather="settings"></i> <strong>Data konfigurasi</strong>
+                                </div>
+                                <div>
+                                    {{ Breadcrumbs::render('konfigurasi') }}
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <form action="{{ url('/admin/konfigurasi') }}" method="post" class="form-submit">

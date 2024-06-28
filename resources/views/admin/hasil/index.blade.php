@@ -13,7 +13,14 @@
                     <div class="card">
                         @include('utils.session')
                         <div class="card-header">
-                            <i data-feather="settings"></i> <strong>Data Hasil Seleksi</strong>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <i data-feather="settings"></i> <strong>Data Hasil Seleksi</strong>
+                                </div>
+                                <div>
+                                    {{ Breadcrumbs::render('hasil') }}
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

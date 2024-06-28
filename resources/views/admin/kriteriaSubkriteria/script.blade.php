@@ -34,9 +34,8 @@
                     } = data;
 
                     result.map((v, i) => {
-                        $('.nilai_kriteria_subkriteria[data-sub_kriteria_id="' + v
-                            .sub_kriteria.id + '"]').val(v
-                            .nilai_kriteria_subkriteria);
+                        $(`.sub_kriteria_id[data-kriteria_id="${v.kriteria_id}"]`)
+                            .val(v.sub_kriteria_id);
                     })
 
                     $('input[name="_method"]').val('put');

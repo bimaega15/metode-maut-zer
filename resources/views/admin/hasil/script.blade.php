@@ -1,9 +1,12 @@
 <script>
-    $(document).ready(function() {  
-        $('#tableHasilBagi').DataTable();
-        $('#tableNormalisasi').DataTable();
+    $(document).ready(function() {
+        $('#tableDataKriteria').DataTable();
+        $('#tableNilaiBobot').DataTable();
+        $('#tableMatriksTernormalisasi').DataTable();
+        $('#tableMatriksNormalisasiKeputusan').DataTable();
         $('#tablePreferensi').DataTable();
-        $('#tableRanking').DataTable();
-
+        $('#tableRanking').DataTable({
+            ordering: false
+        });
     })
 </script>

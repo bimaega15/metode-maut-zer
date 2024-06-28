@@ -12,7 +12,14 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
-                            <i data-feather="settings"></i> <strong>Data access</strong>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <i data-feather="settings"></i> <strong>Data access</strong>
+                                </div>
+                                <div>
+                                    {{ Breadcrumbs::render('access') }}
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">

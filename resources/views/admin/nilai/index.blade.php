@@ -12,7 +12,14 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
-                            <i data-feather="settings"></i> <strong>Data Nilai</strong>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <i data-feather="settings"></i> <strong>Data role</strong>
+                                </div>
+                                <div>
+                                    {{ Breadcrumbs::render('nilai') }}
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">

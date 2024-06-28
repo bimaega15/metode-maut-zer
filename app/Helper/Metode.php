@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Models\Alternatif;
 use App\Models\Hasil;
 use App\Models\Kriteria;
 use App\Models\KriteriaSubkriteria;
@@ -10,78 +11,86 @@ class Metode
 {
     public static function getPerhitunganMetode($request)
     {
+        // METODE RANK ORDER CENTROID
         $saveMetode = [];
+
+        //  MENENTUKAN PRIORITAS KRITERIA DARI YANG TERTINGGI HINGGA PRIORITAS KRITERIA TERENDAH
+        $getKriteria = Kriteria::orderBy('bobot_kriteria', 'asc')->get();
+        $getAlternatif = Alternatif::all();
+        $saveMetode['metode']['dataKriteria'] = $getKriteria;
+        $saveMetode['metode']['dataAlternatif'] = $getAlternatif;
+
+        //  MENGHITUNG NILAI BOBOT (W) DARI SETIAP KRITERIA YANG TELAH DI TENTUKAN
+        $menghitungNilaiBobot = [];
+        $count = $getKriteria->count();
+        foreach ($getKriteria as $index => $value) {
+            $totalNumber = 0;
+            foreach ($getKriteria as $index2 => $item) {
+                $getNumber = $index2 + 1;
+                $calculate =  1 / $getNumber;
+                if ($index > $index2) {
+                    $calculate = 0;
+                }
+                $totalNumber += $calculate;
+            }
+            $menghitungNilaiBobot[$value->id] = $totalNumber / $count;
+        }
+
+        // SEHINGGA DIDAPATKAN LAH NILAI KRITERIA
+        $saveMetode['metode']['bobotNilaiKriteria'] = $menghitungNilaiBobot;
+
+        // MEMBUAT MATRIKS TERNORMALISASI
         $kriteriaSubKriteria = new KriteriaSubkriteria();
         $kriteriaSubKriteria = $kriteriaSubKriteria->getData($request->all());
 
-        // hasil bagi sub
-        $hasilBagiSub = [];
+        $matriksTernormalisasi = [];
         foreach ($kriteriaSubKriteria as $key => $value) {
-            $hasilBagiSub[$value->alternatif_id][$value->kriteria_id][] = $value->nilai_kriteria_subkriteria;
+            $matriksTernormalisasi[$value->alternatif_id][$value->kriteria_id] = $value->nilai_kriteria_subkriteria;
         }
+        $saveMetode['metode']['matriksTernormalisasi'] = $matriksTernormalisasi;
 
-        $hasilBagiSub2 = [];
-        $hasilBagiInvers = [];
-        foreach ($hasilBagiSub as $alternatif_id => $kriteria) {
-            foreach ($kriteria as $kriteria_id => $value) {
-                $total = array_sum($value) / count($value);
-                $hasilBagiSub2[$alternatif_id][$kriteria_id] = $total;
-                $hasilBagiInvers[$kriteria_id][$alternatif_id] = $total;
+        // SETELAH ITU TENTUKAN DARI NILAI TERKECIL DAN TERBESAR DARI SETIAP KRITERIA
+        $invers = [];
+        foreach ($matriksTernormalisasi as $alternatif_id => $vKriteria) {
+            foreach ($vKriteria as $kriteria_id => $value) {
+                $invers[$kriteria_id][$alternatif_id] = $value;
             }
         }
-        $saveMetode['metode']['hasilBagi'] = $hasilBagiSub2;
-        $saveMetode['metode']['hasilBagiView'] = $hasilBagiInvers;
 
-        // min max kriteria
         $minMaxKriteria = [];
-        $inversHasilBagi = [];
-        foreach ($hasilBagiSub2 as $alternatif_id => $kriteria) {
-            foreach ($kriteria as $kriteria_id => $value) {
-                $inversHasilBagi[$kriteria_id][$alternatif_id] = $value;
-            }
-        }
-
-        foreach ($inversHasilBagi as $kriteria_id => $alternatif) {
-            $min = min($alternatif);
-            $max = max($alternatif);
-            $minMaxKriteria[$kriteria_id]['min'] = $min;
-            $minMaxKriteria[$kriteria_id]['max'] = $max;
+        foreach ($invers as $kriteria_id => $value) {
+            $minMaxKriteria[$kriteria_id]['min'] = min($value);
+            $minMaxKriteria[$kriteria_id]['max'] = max($value);
         }
         $saveMetode['metode']['minMaxKriteria'] = $minMaxKriteria;
 
-        // normalisasi matrix
-        $normalisasiMatrix = [];
-        $boboKriteria = [];
-        foreach ($hasilBagiSub2 as $alternatif_id => $kriteria) {
-            foreach ($kriteria as $kriteria_id => $value) {
+
+        // NORMALISASI MATRIKS KEPUTUSAN
+        $normalisasiMatrixKeputusan = [];
+        foreach ($matriksTernormalisasi as $alternatif_id => $vKriteria) {
+            foreach ($vKriteria as $kriteria_id => $value) {
                 $rumus = ($value - $minMaxKriteria[$kriteria_id]['min']) / ($minMaxKriteria[$kriteria_id]['max'] - $minMaxKriteria[$kriteria_id]['min']);
 
-                $normalisasiMatrix[$alternatif_id][$kriteria_id] = $rumus;
-                $boboKriteria[$kriteria_id] = Kriteria::find($kriteria_id)->bobot_kriteria / 100;
+                $normalisasiMatrixKeputusan[$alternatif_id][$kriteria_id] = $rumus;
             }
         }
-        $saveMetode['metode']['normaliasiMatrix'] = $normalisasiMatrix;
+        $saveMetode['metode']['normalisasiMatrixKeputusan'] = $normalisasiMatrixKeputusan;
 
-
-        // menentukan nilai preferensi
+        // PENJUMLAHAN HASIL PERKALIAN DARI NORMALISASI MATRIKS DENGAN BOBOT KRITERIA
         $preferensi = [];
-        foreach ($normalisasiMatrix as $alternatif_id => $kriteria) {
-            foreach ($kriteria as $kriteria_id => $value) {
-                $hitung = $value * $boboKriteria[$kriteria_id];
-                $preferensi[$alternatif_id][$kriteria_id] = $hitung;
+        foreach ($normalisasiMatrixKeputusan as $alternatif_id => $vAlternatif) {
+            $calculate = 0;
+            foreach ($vAlternatif as $kriteria_id => $itemAlternatif) {
+                $calculate += $itemAlternatif * $menghitungNilaiBobot[$kriteria_id];
             }
+            $preferensi[$alternatif_id] = $calculate;
         }
+
         $saveMetode['metode']['preferensi'] = $preferensi;
 
-        // total preferensi
-        $totalPreferensi = [];
-        foreach ($preferensi as $alternatif_id => $kriteria) {
-            $sum  = array_sum($kriteria);
-            $totalPreferensi[$alternatif_id] = $sum;
-        }
-        arsort($totalPreferensi);
-
-        $ranking = $totalPreferensi;
+        // RANKING
+        arsort($preferensi);
+        $ranking = $preferensi;
         $saveMetode['metode']['ranking'] = $ranking;
         return $saveMetode;
     }
@@ -89,6 +98,30 @@ class Metode
     public static function getPerhitunganMetodeHasil($selesai_test_id)
     {
         $saveMetode = [];
+        //  MENENTUKAN PRIORITAS KRITERIA DARI YANG TERTINGGI HINGGA PRIORITAS KRITERIA TERENDAH
+        $getKriteria = Kriteria::orderBy('bobot_kriteria', 'asc')->get();
+        $getAlternatif = Alternatif::all();
+        $saveMetode['metode']['dataKriteria'] = $getKriteria;
+        $saveMetode['metode']['dataAlternatif'] = $getAlternatif;
+
+        //  MENGHITUNG NILAI BOBOT (W) DARI SETIAP KRITERIA YANG TELAH DI TENTUKAN
+        $menghitungNilaiBobot = [];
+        $count = $getKriteria->count();
+        foreach ($getKriteria as $index => $value) {
+            $totalNumber = 0;
+            foreach ($getKriteria as $index2 => $item) {
+                $getNumber = $index2 + 1;
+                $calculate =  1 / $getNumber;
+                if ($index > $index2) {
+                    $calculate = 0;
+                }
+                $totalNumber += $calculate;
+            }
+            $menghitungNilaiBobot[$value->id] = $totalNumber / $count;
+        }
+        // SEHINGGA DIDAPATKAN LAH NILAI KRITERIA
+        $saveMetode['metode']['bobotNilaiKriteria'] = $menghitungNilaiBobot;
+
         $hasil = Hasil::with('hasilDetail', 'alternatif')->where('selesai_test_id', $selesai_test_id)->get();
         $hasilBagiSub = [];
         foreach ($hasil as $key => $value) {
@@ -97,58 +130,52 @@ class Metode
             }
         }
         $hasilBagiSub2 = $hasilBagiSub;
-        $saveMetode['metode']['hasilBagi'] = $hasilBagiSub2;
 
-        // min max kriteria
-        $minMaxKriteria = [];
-        $inversHasilBagi = [];
-        foreach ($hasilBagiSub2 as $alternatif_id => $kriteria) {
-            foreach ($kriteria as $kriteria_id => $value) {
-                $inversHasilBagi[$kriteria_id][$alternatif_id] = $value;
+        $matriksTernormalisasi = $hasilBagiSub2;
+        $saveMetode['metode']['matriksTernormalisasi'] = $matriksTernormalisasi;
+
+        // SETELAH ITU TENTUKAN DARI NILAI TERKECIL DAN TERBESAR DARI SETIAP KRITERIA
+        $invers = [];
+        foreach ($matriksTernormalisasi as $alternatif_id => $vKriteria) {
+            foreach ($vKriteria as $kriteria_id => $value) {
+                $invers[$kriteria_id][$alternatif_id] = $value;
             }
         }
 
-        foreach ($inversHasilBagi as $kriteria_id => $alternatif) {
-            $min = min($alternatif);
-            $max = max($alternatif);
-            $minMaxKriteria[$kriteria_id]['min'] = $min;
-            $minMaxKriteria[$kriteria_id]['max'] = $max;
+        $minMaxKriteria = [];
+        foreach ($invers as $kriteria_id => $value) {
+            $minMaxKriteria[$kriteria_id]['min'] = min($value);
+            $minMaxKriteria[$kriteria_id]['max'] = max($value);
         }
         $saveMetode['metode']['minMaxKriteria'] = $minMaxKriteria;
 
-        // normalisasi matrix
-        $normalisasiMatrix = [];
-        $boboKriteria = [];
-        foreach ($hasilBagiSub2 as $alternatif_id => $kriteria) {
-            foreach ($kriteria as $kriteria_id => $value) {
+
+        // NORMALISASI MATRIKS KEPUTUSAN
+        $normalisasiMatrixKeputusan = [];
+        foreach ($matriksTernormalisasi as $alternatif_id => $vKriteria) {
+            foreach ($vKriteria as $kriteria_id => $value) {
                 $rumus = ($value - $minMaxKriteria[$kriteria_id]['min']) / ($minMaxKriteria[$kriteria_id]['max'] - $minMaxKriteria[$kriteria_id]['min']);
 
-                $normalisasiMatrix[$alternatif_id][$kriteria_id] = $rumus;
-                $boboKriteria[$kriteria_id] = Kriteria::find($kriteria_id)->bobot_kriteria / 100;
+                $normalisasiMatrixKeputusan[$alternatif_id][$kriteria_id] = $rumus;
             }
         }
-        $saveMetode['metode']['normaliasiMatrix'] = $normalisasiMatrix;
+        $saveMetode['metode']['normalisasiMatrixKeputusan'] = $normalisasiMatrixKeputusan;
 
-
-        // menentukan nilai preferensi
+        // PENJUMLAHAN HASIL PERKALIAN DARI NORMALISASI MATRIKS DENGAN BOBOT KRITERIA
         $preferensi = [];
-        foreach ($normalisasiMatrix as $alternatif_id => $kriteria) {
-            foreach ($kriteria as $kriteria_id => $value) {
-                $hitung = $value * $boboKriteria[$kriteria_id];
-                $preferensi[$alternatif_id][$kriteria_id] = $hitung;
+        foreach ($normalisasiMatrixKeputusan as $alternatif_id => $vAlternatif) {
+            $calculate = 0;
+            foreach ($vAlternatif as $kriteria_id => $itemAlternatif) {
+                $calculate += $itemAlternatif * $menghitungNilaiBobot[$kriteria_id];
             }
+            $preferensi[$alternatif_id] = $calculate;
         }
+
         $saveMetode['metode']['preferensi'] = $preferensi;
 
-        // total preferensi
-        $totalPreferensi = [];
-        foreach ($preferensi as $alternatif_id => $kriteria) {
-            $sum  = array_sum($kriteria);
-            $totalPreferensi[$alternatif_id] = $sum;
-        }
-        arsort($totalPreferensi);
-
-        $ranking = $totalPreferensi;
+        // RANKING
+        arsort($preferensi);
+        $ranking = $preferensi;
         $saveMetode['metode']['ranking'] = $ranking;
         return $saveMetode;
     }

@@ -197,7 +197,6 @@ class KriteriaSubKriteriaController extends Controller
                 ];
             }
 
-
             $insert = KriteriaSubKriteria::insert($data);
             DB::commit();
             if ($insert) {

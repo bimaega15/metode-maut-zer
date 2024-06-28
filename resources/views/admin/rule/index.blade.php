@@ -13,6 +13,7 @@
                     <div class="card">
                         <div class="card-header">
                             <i data-feather="settings"></i> <strong>Data rule</strong>
+
                         </div>
                         <div class="card-body">
                             <div class="row">
